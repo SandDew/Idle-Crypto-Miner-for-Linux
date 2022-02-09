@@ -18,14 +18,16 @@ while y == 0:
     x=subprocess.check_output(['xprintidle'])
     z=float(x) #if statements require float to work
     if z >= 3000:
-        print('Idle')
-        time.sleep(1)
+        if checkIfProcessRunning('xmr-stak-rx'):
+            time.sleep(1)
+        else :
+            subprocess.run(['./xmr-stak-rx']) #Fix to run separately
+            print('Started program')
+            time.sleep(1)
     else :
-        print('Not Idle')
-        time.sleep(1)
-
-
-#  x=subprocess.run(['xprintidle'])
-#    print("X is next")
- #  print(x)
- #   time.sleep(1)
+        if checkIfProcessRunning('xmr-stak-rx'):
+            subprocess.run(['killall xmr-stak-rx'])
+            print('Killed program')
+            time.sleep(1)
+        else:
+            time.sleep(1)
