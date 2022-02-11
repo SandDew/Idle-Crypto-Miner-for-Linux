@@ -9,10 +9,5 @@
 ```
 sudo apt-get install xprintidle
 sudo apt-get install python3
-pip install psutil
-```
-```
-
-meson install -C build
-```
-  The ladder command might require you to install pip depending on your distribution
+`pip install psuti`
+The ladder command might require you to install pip depending on your distribution
