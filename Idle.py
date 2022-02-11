@@ -1,6 +1,4 @@
-import subprocess
-import time
-import psutil
+import subprocess, time, psutil
 
 def checkIfProcessRunning(processName):
     for proc in psutil.process_iter():
