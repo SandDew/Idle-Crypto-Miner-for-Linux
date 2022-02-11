@@ -4,8 +4,8 @@ I noticed a lack of solutions to idle mining in Linux and decided to fix that. C
   -Python 3 <br>
   -Psutil <br>
   -Xprintidle <br>
-  On ubuntu these can be installed via the commands below,
+  On ubuntu these can be installed via the commands below,<br>
   `sudo apt-get install xprintidle' <br>
   `sudo apt-get install python3` <br>
-  `pip install psutil`
+  `pip install psutil` <br>
   The ladder command might require you to install pip depending on your distribution
