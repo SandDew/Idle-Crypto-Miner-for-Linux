@@ -10,5 +10,11 @@
   sudo apt-get install xprintidle <br>
   sudo apt-get install python3 <br>
   pip install psutil <br>
+  ```
+  
+  
+```
+meson build
+meson install -C build
 ```
   The ladder command might require you to install pip depending on your distribution
