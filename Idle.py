@@ -1,5 +1,5 @@
 import subprocess, time, psutil
-
+#checkIfProcessRunning is taken from https://gist.github.com/Sanix-Darker/8cbed2ff6f8eb108ce2c8c51acd2aa5a
 def checkIfProcessRunning(processName):
     for proc in psutil.process_iter():
         try:
@@ -8,7 +8,6 @@ def checkIfProcessRunning(processName):
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
     return False;
-    
 y=0 #while true didnt work 
 while y == 0:
     x=subprocess.check_output(['xprintidle'])
