@@ -14,7 +14,7 @@
   
   
 ```
-meson build
+sudo apt
 meson install -C build
 ```
   The ladder command might require you to install pip depending on your distribution
