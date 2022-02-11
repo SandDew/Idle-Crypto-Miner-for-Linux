@@ -6,15 +6,9 @@
   -Xprintidle <br>
   <br>
   On ubuntu these can be installed via the commands below,<br>
-  ```
-  sudo apt-get install xprintidle <br>
-  sudo apt-get install python3 <br>
-  pip install psutil <br>
-  ```
-  
-  
 ```
-sudo apt
-meson install -C build
+sudo apt-get install xprintidle
+sudo apt-get install python3
+pip install psutil
 ```
   The ladder command might require you to install pip depending on your distribution
