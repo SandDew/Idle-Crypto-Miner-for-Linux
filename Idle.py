@@ -16,7 +16,7 @@ while y == 0:
         if checkIfProcessRunning('xmr-stak-rx'):
             time.sleep(1)
         else :
-            subprocess.Popen(['./xmr-stak-rx --noTest'])
+            subprocess.Popen(['./xmr-stak-rx'])
             print("\n" + 'Started miner' + "\n")
             time.sleep(1)
     else :
