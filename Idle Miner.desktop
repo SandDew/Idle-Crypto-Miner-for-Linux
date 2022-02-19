@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Idle Miner
+Exec=\spython3 /usr/share/applications/'Idle Miner'/Idle.py
+Comment=
+Terminal=false
+Icon=/usr/share/applications/Idle Miner/Icon.png
+Type=Application
