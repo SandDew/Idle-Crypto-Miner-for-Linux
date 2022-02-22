@@ -19,6 +19,6 @@ pip install psutil
 ### Roadmap
 - [x] Make a script to run programs while idle
 - [x] Add a simple GUI
-- [ ] Expand the GUI to be more than one button (stop button, text entry to change amount of time until xmr starts)
+- [ ] Expand the GUI to be more than one button (<s>stop button, </s>text entry to change amount of time until xmr starts)
 - [ ] Find a way to config xmr-stak through the GUI
 - [ ] Add the ability to change the mining program being used 
