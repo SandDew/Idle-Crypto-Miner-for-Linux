@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 import subprocess, psutil, time, threading
 
+subprocess.run(['killall python3 -o 1s'], shell=True) #Kills all past instances of the miner (just in case) 
+
 #checkIfProcessRunning is taken from https://gist.github.com/Sanix-Darker/8cbed2ff6f8eb108ce2c8c51acd2aa5a
 def checkIfProcessRunning(processName):
     for proc in psutil.process_iter():
@@ -28,7 +30,7 @@ def Idle():
 		else:
                     u=subprocess.check_output(['xprintidle'])
                     z=float(u) #if statements require float to work
-                    if z >= 3000: 
+                    if z >= 300000: 
                         if checkIfProcessRunning('xmr-stak-rx'):
                             time.sleep(1)
                         else :
@@ -64,7 +66,7 @@ def timmy():
 	button.state(['!disabled'])
 	
 root = tk.Tk()
-root.geometry('300x50')
+root.geometry('275x50')
 root.resizable(False, False)
 root.title('Idle Miner')
 
