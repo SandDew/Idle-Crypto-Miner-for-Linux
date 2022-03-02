@@ -28,9 +28,12 @@ def Idle():
 			else :
 				time.sleep(1)
 		else:
+                    Variable2=open("Variable2.txt","r")
+                    Variable3=Variable2.read()
+                    V=float(Variable3)
                     u=subprocess.check_output(['xprintidle'])
                     z=float(u) #if statements require float to work
-                    if z >= 300000: 
+                    if z >= V: 
                         if checkIfProcessRunning('xmr-stak-rx'):
                             time.sleep(1)
                         else :
@@ -47,6 +50,16 @@ def Idle():
  
 s= threading.Thread(target=Idle, args=())
 s.start()
+
+
+def warning():
+	warn=tk.Tk()
+	warn.geometry('300x25')
+	warn.resizable(False,False)
+	warn.title('WARNING')
+	
+	the_warning= tk.Label(warn, text='The input needs to be a number')
+	the_warning.pack()
 
 def jimmy():
 	#I wasnt able to use x=1 or x=0 for the break flag. This was the soulution I came up with, im aware that writing to a file is not very efficient. 
@@ -65,8 +78,25 @@ def timmy():
 	button2.state(['disabled'])
 	button.state(['!disabled'])
 	
+def clide():
+	side=box.get()
+	try:
+		int(side)
+		showwarn=False
+	except ValueError:
+		showwarn=True
+	if showwarn == True:
+		warning()
+	else:
+		Variable2=open('Variable2.txt', "w")
+		Variable2.truncate()
+		Variable2.write(side)
+		Variable2.close
+
+	
+	
 root = tk.Tk()
-root.geometry('275x50')
+root.geometry('425x75')
 root.resizable(False, False)
 root.title('Idle Miner')
 
@@ -74,13 +104,29 @@ button = ttk.Button(root,
  text='Start Idle Miner', 
  command= lambda: jimmy()
 )
-button.place(x=10, y=10)
+button.grid(row=0, column=0, padx=10, pady=5)
 
 button2 = ttk.Button(root,
  text='Stop Idle Miner', 
  command= lambda: timmy()
 )
-button2.place(x=150, y=10)
+button2.grid(row=0,column=1,padx=5,pady=5)
 button2.state(['disabled'])
+
+txt= tk.Label(root, text="Time to idle (ms):")
+txt.grid(row=2,column=0,padx=5, pady=5)
+
+Variable2 = open("Variable2.txt", "r") #I dont know how to only delete one line of a file, so ill just make a whole new file. I might fix this later
+Variable3=Variable2.read()
+box = tk.Entry(root)
+box.insert('0', Variable3)
+box.grid(row=2,column=1, padx=5, pady=5)
+box.focus_set()
+Variable2.close()
+
+button3 = ttk.Button(root, text='Save',
+ command=lambda: clide())
+button3.grid(row=2,column=2, padx=5, pady=5)
+
 
 root.mainloop()
