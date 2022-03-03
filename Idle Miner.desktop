@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Idle Miner
-Exec=\spython3 /usr/share/applications/'Idle Miner'/Idle.py
+Exec=\sbash /usr/share/applications/'Idle Miner'/Dev_Launcher
 Comment=
 Terminal=false
 Icon=/usr/share/applications/Idle Miner/Icon.png
