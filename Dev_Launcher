@@ -1,2 +1,3 @@
 #!
+cd /usr/share/applications/'Idle Miner'
 python3 Idle.py
