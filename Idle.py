@@ -47,9 +47,45 @@ def Idle():
                             time.sleep(1)
                         else:
                             time.sleep(1)
- 
+
+def Idle2():
+	while True:
+		Variable=open("Variable.txt", "r")
+		a=Variable.read() #I dont know why I need to store "Variable.read()" in a seperate container but the if statement isnt able to read it if I dont.
+		if a=='True':
+			if checkIfProcessRunning('xmrig'):
+                            subprocess.run(['killall xmrig'], shell=True) 
+                            print("\n" + 'Made sure miner was dead. Ignore this message,\nits just a miner inconvenience (¬‿¬)' + "\n")
+                            time.sleep(5)
+                            print("\n" + 'Comeon, it was a good joke. So good infact,\nyou might need to read it again\nbecause of a bug that I dont feel like fixing.\nwhy are you launching the program via terminal anyway?' + "\n")
+                            time.sleep(1)
+			else :
+				time.sleep(1)
+		else:
+                    Variable2=open("Variable2.txt","r")
+                    Variable3=Variable2.read()
+                    V=float(Variable3)
+                    u=subprocess.check_output(['xprintidle'])
+                    z=float(u) #if statements require float to work
+                    if z >= V: 
+                        if checkIfProcessRunning('xmrig'):
+                            time.sleep(1)
+                        else :
+                            subprocess.Popen(['./xmrig'])
+                            print("\n" + 'Started miner' + "\n")
+                            time.sleep(1)
+                    else :
+                        if checkIfProcessRunning('xmrig'):
+                            subprocess.run(['killall xmrig'], shell=True) 
+                            print("\n" + 'Killed miner' + "\n")
+                            time.sleep(1)
+                        else:
+                            time.sleep(1)
+
 s= threading.Thread(target=Idle, args=())
 s.start()
+k = threading.Thread(target=Idle2, args=()) #I know, this isnt the best way of doing things. But I'm not really sure how else I can run two binarys at once. Also, to be completely honest. I dont feel like writing better code. If I was in computer sci and this was getting a grade, sure but this is a personal project and I feel as though the goal is achieved.
+k.start()
 
 
 def warning():
@@ -93,8 +129,7 @@ def clide():
 		Variable2.write(side)
 		Variable2.close
 
-	
-	
+
 root = tk.Tk()
 root.geometry('425x75')
 root.resizable(False, False)
@@ -102,7 +137,7 @@ root.title('Idle Miner')
 
 button = ttk.Button(root,
  text='Start Idle Miner', 
- command= lambda: jimmy()
+command= lambda: jimmy()
 )
 button.grid(row=0, column=0, padx=10, pady=5)
 
