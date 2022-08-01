@@ -14,80 +14,68 @@ def checkIfProcessRunning(processName):
             pass
     return False;
     
+def IsXmrStakRunning():
+	if checkIfProcessRunning('xmr-stak-rx'):
+		return True
+	else:
+		return False		
+
+def IsXmrigRunning():
+	if checkIfProcessRunning('xmrig'):
+		return True
+	else:
+		return False	
+		
+def StartXmrStakRx():
+	subprocess.Popen(['./xmr-stak-rx'])
+	
+def StartXmrig():
+	subprocess.Popen(['./xmrrig'])
+    
 def Idle():
 	while True:
-		Variable=open("Variable.txt", "r")
-		a=Variable.read() #I dont know why I need to store "Variable.read()" in a seperate container but the if statement isnt able to read it if I dont.
-		if a=='True':
-			if checkIfProcessRunning('xmr-stak-rx'):
+		Variable=open("Variable.txt", "r") #Variable = start button
+		Has_The_Button_Been_Pressed=Variable.read() 
+		if Has_The_Button_Been_Pressed=='True': #(Turns true when stop button is pressed)
+			if checkIfProcessRunning('xmr-stak-rx') or checkIfProcessRunning('xmrig'):
                             subprocess.run(['killall xmr-stak-rx'], shell=True) 
-                            print("\n" + 'Made sure miner was dead. Ignore this message,\nits just a miner inconvenience (¬‿¬)' + "\n")
-                            time.sleep(5)
-                            print("\n" + 'Comeon, it was a good joke. So good infact,\nyou might need to read it again\nbecause of a bug that I dont feel like fixing.\nwhy are you launching the program via terminal anyway?' + "\n")
+                            subprocess.run(['killall xmrig'], shell=True) 
+                            print('Made sure the miner was dead')
+                            #This code makes sure the miners have been stopped, they should already be dead. But it doesnt hurt to be redundant  
                             time.sleep(1)
 			else :
-				time.sleep(1)
+				time.sleep(1) #If the button happens to be on "start idle miner" however, wait one second
 		else:
-                    Variable2=open("Variable2.txt","r")
-                    Variable3=Variable2.read()
-                    V=float(Variable3)
-                    u=subprocess.check_output(['xprintidle'])
-                    z=float(u) #if statements require float to work
-                    if z >= V: 
-                        if checkIfProcessRunning('xmr-stak-rx'):
+                    Variable2=open("Variable2.txt","r") #Variable 2 is the number of milliseconds it takes to enter an idle state 
+                    Time_Till_Idle=Variable2.read()
+                    TTI_but_In_Float=float(Time_Till_Idle)
+                    Amount_Of_Time_Idle=subprocess.check_output(['xprintidle'])
+                    AOTI_but_In_Float=float(Amount_Of_Time_Idle) #Requires float to work
+                    if AOTI_but_In_Float >= TTI_but_In_Float: 
+                        if IsXmrStakRunning() and IsXmrigRunning():
                             time.sleep(1)
                         else :
-                            subprocess.Popen(['./xmr-stak-rx'])
-                            print("\n" + 'Started miner' + "\n")
-                            time.sleep(1)
+                        	if IsXmrStakRunning():
+                        		time.sleep(1)
+                        	else:
+                        		XmrStakThread = threading.Thread(target = StartXmrStakRx, args=())
+                        		XmrStakThread.start()
+                        	if IsXmrigRunning():
+                        		time.sleep(1)
+                        	else:
+                        		XmrigThread = threading.Thread(target = StartXmrig, args=())
+                        		XmrigThread.start()
+                        	print("\n" + 'Started miner' + "\n")
+                        	time.sleep(1)
+
                     else :
-                        if checkIfProcessRunning('xmr-stak-rx'):
-                            subprocess.run(['killall xmr-stak-rx'], shell=True) 
+                        if IsXmrStakRunning() or IsXmrigRunning():
+                            subprocess.run(['killall xmr-stak-rx'], shell=True)
+                            subprocess.run(['killall xmrig'], shell=True)
                             print("\n" + 'Killed miner' + "\n")
                             time.sleep(1)
                         else:
                             time.sleep(1)
-
-def Idle2():
-	while True:
-		Variable=open("Variable.txt", "r")
-		a=Variable.read() #I dont know why I need to store "Variable.read()" in a seperate container but the if statement isnt able to read it if I dont.
-		if a=='True':
-			if checkIfProcessRunning('xmrig'):
-                            subprocess.run(['killall xmrig'], shell=True) 
-                            print("\n" + 'Made sure miner was dead. Ignore this message,\nits just a miner inconvenience (¬‿¬)' + "\n")
-                            time.sleep(5)
-                            print("\n" + 'Comeon, it was a good joke. So good infact,\nyou might need to read it again\nbecause of a bug that I dont feel like fixing.\nwhy are you launching the program via terminal anyway?' + "\n")
-                            time.sleep(1)
-			else :
-				time.sleep(1)
-		else:
-                    Variable2=open("Variable2.txt","r")
-                    Variable3=Variable2.read()
-                    V=float(Variable3)
-                    u=subprocess.check_output(['xprintidle'])
-                    z=float(u) #if statements require float to work
-                    if z >= V: 
-                        if checkIfProcessRunning('xmrig'):
-                            time.sleep(1)
-                        else :
-                            subprocess.Popen(['./xmrig'])
-                            print("\n" + 'Started miner' + "\n")
-                            time.sleep(1)
-                    else :
-                        if checkIfProcessRunning('xmrig'):
-                            subprocess.run(['killall xmrig'], shell=True) 
-                            print("\n" + 'Killed miner' + "\n")
-                            time.sleep(1)
-                        else:
-                            time.sleep(1)
-
-s= threading.Thread(target=Idle, args=())
-s.start()
-k = threading.Thread(target=Idle2, args=()) #I know, this isnt the best way of doing things. But I'm not really sure how else I can run two binarys at once. Also, to be completely honest. I dont feel like writing better code. If I was in computer sci and this was getting a grade, sure but this is a personal project and I feel as though the goal is achieved.
-k.start()
-
-
 def warning():
 	warn=tk.Tk()
 	warn.geometry('300x25')
@@ -97,7 +85,7 @@ def warning():
 	the_warning= tk.Label(warn, text='The input needs to be a number')
 	the_warning.pack()
 
-def jimmy():
+def jimmy(): #rewrite jimmy, timmy, and clide to have more understandable variable names
 	#I wasnt able to use x=1 or x=0 for the break flag. This was the soulution I came up with, im aware that writing to a file is not very efficient. 
 	Variable=open("Variable.txt", "w")
 	Variable.truncate()
@@ -128,12 +116,33 @@ def clide():
 		Variable2.truncate()
 		Variable2.write(side)
 		Variable2.close
+		
+def Keep_Window_Closed_On_Restart():
+	Window_Closed_Flag=open("ClosedWindow.txt", 'w')
+	Window_Closed_Flag.truncate()
+	Window_Closed_Flag.write("True")
+	Window_Closed_Flag.close()
+	DontShowWindow.state(['disabled'])
+	
+def Is_Closed_True():
+	flag=open("ClosedWindow.txt", "r")
+	flag2=flag.read()
+	if flag2 == "True":
+		return True
+	else:
+		return False
+	
 
+IdleThread = threading.Thread(target=Idle, args=())
+IdleThread.start()
 
 root = tk.Tk()
-root.geometry('425x75')
+root.geometry('455x75')
 root.resizable(False, False)
 root.title('Idle Miner')
+
+DontShowWindow= ttk.Button(root, text = "Dont show window", command= lambda: Keep_Window_Closed_On_Restart())
+DontShowWindow.grid(row=0, column=2, padx=5, pady=5)
 
 button = ttk.Button(root,
  text='Start Idle Miner', 
@@ -163,5 +172,8 @@ button3 = ttk.Button(root, text='Save',
  command=lambda: clide())
 button3.grid(row=2,column=2, padx=5, pady=5)
 
+if Is_Closed_True() == True:
+	jimmy()
+	root.destroy()
 
 root.mainloop()
